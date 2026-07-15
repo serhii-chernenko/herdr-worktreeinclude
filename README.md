@@ -16,7 +16,7 @@ Use Herdr's normal **New worktree** UI. After creation, the plugin automatically
 - copies files selected by `.worktreeinclude` from the primary checkout;
 - opens the relocated worktree as the active Herdr workspace.
 
-When you remove a plugin-managed worktree through Herdr's normal UI, an unchanged branch (one already contained in the primary checkout's `HEAD`) is removed silently. For a branch with unique commits, Herdr shows an in-terminal overlay: press `d` to safely delete the local branch or Enter to keep it.
+When you remove a plugin-managed worktree through Herdr's normal UI, an unchanged branch (one already contained in the primary checkout's `HEAD`) is removed silently. For a branch with unique commits, Herdr shows a small popup pane: press `d` to safely delete the local branch or Enter to keep it.
 
 The plugin cannot change Herdr's built-in creation/removal dialogs. It uses lifecycle hooks immediately after those dialogs complete.
 

@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# Open an in-Herdr branch-cleanup overlay after a plugin-managed checkout is
+# Open an in-Herdr branch-cleanup popup after a plugin-managed checkout is
 # removed. This hook deliberately does not use macOS dialogs.
 set -euo pipefail
 
@@ -30,7 +30,6 @@ fi
 "$herdr_bin" plugin pane open \
   --plugin "${HERDR_PLUGIN_ID:-serhii-chernenko.worktreeinclude}" \
   --entrypoint branch-cleanup \
-  --placement overlay \
+  --placement popup \
   --env "HERDR_WORKTREEINCLUDE_SOURCE=$source" \
-  --env "HERDR_WORKTREEINCLUDE_BRANCH=$branch" \
-  --focus
+  --env "HERDR_WORKTREEINCLUDE_BRANCH=$branch"
