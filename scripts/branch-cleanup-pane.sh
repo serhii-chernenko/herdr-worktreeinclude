@@ -14,5 +14,5 @@ read -r -n 1 choice || true
 printf '\n'
 
 if [[ "$choice" == "d" || "$choice" == "D" ]]; then
-  git -C "$source_root" branch -d -- "$branch" >&2 || true
+  git -C "$source_root" branch -D -- "$branch" >&2 || true
 fi
