@@ -95,3 +95,10 @@ git push origin main v0.1.1
 ```
 
 The tag workflow verifies the version, publishes to npm through npm Trusted Publishing, and creates GitHub Release notes automatically. After claiming the package name with an initial manual publish, configure npm's Trusted Publisher for GitHub repository `serhii-chernenko/herdr-worktreeinclude` and workflow filename `publish.yml`. Subsequent matching version tags publish without a stored npm token.
+
+## Screenshots
+
+<img width="2262" height="1380" alt="shot-mrmikk98" src="https://github.com/user-attachments/assets/ac422fbb-0af1-4606-8081-2740220ea474" />
+<img width="2338" height="1240" alt="shot-mrmil9fr" src="https://github.com/user-attachments/assets/9cefdb30-1bd0-4b78-a265-ac55a7a87cad" />
+<img width="1234" height="436" alt="shot-mrmink67" src="https://github.com/user-attachments/assets/b7dec468-aa1e-434f-bc79-e334e90b5d22" />
+
