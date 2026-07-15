@@ -1,0 +1,26 @@
+id = "serhii-chernenko.worktreeinclude"
+name = "Project-local Worktrees"
+version = "0.1.0"
+min_herdr_version = "0.7.0"
+description = "Creates project-local Git worktrees and restores ignored files selected by .worktreeinclude."
+platforms = ["macos", "linux"]
+
+[[events]]
+on = "worktree.created"
+command = ["bash", "scripts/on-worktree-created.sh"]
+
+[[events]]
+on = "worktree.removed"
+command = ["bash", "scripts/on-worktree-removed.sh"]
+
+[[panes]]
+id = "create"
+title = "Create project-local worktree"
+placement = "tab"
+command = ["bash", "scripts/create-worktree.sh"]
+
+[[panes]]
+id = "branch-cleanup"
+title = "Delete local branch?"
+placement = "overlay"
+command = ["bash", "scripts/branch-cleanup-pane.sh"]
