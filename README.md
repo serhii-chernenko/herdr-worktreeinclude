@@ -102,3 +102,7 @@ The tag workflow verifies the version, publishes to npm through npm Trusted Publ
 <img width="2338" height="1240" alt="shot-mrmil9fr" src="https://github.com/user-attachments/assets/9cefdb30-1bd0-4b78-a265-ac55a7a87cad" />
 <img width="1234" height="436" alt="shot-mrmink67" src="https://github.com/user-attachments/assets/b7dec468-aa1e-434f-bc79-e334e90b5d22" />
 
+## License
+
+MIT
+

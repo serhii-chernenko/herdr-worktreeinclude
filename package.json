@@ -2,6 +2,7 @@
   "name": "herdr-worktreeinclude",
   "version": "0.2.1",
   "description": "Project-local Git worktrees and .worktreeinclude support for Herdr.",
+  "license": "MIT",
   "keywords": [
     "herdr",
     "herdr-plugin",
@@ -20,7 +21,8 @@
     "herdr-plugin.toml",
     "scripts/",
     "README.md",
-    "CHANGELOG.md"
+    "CHANGELOG.md",
+    "LICENSE"
   ],
   "scripts": {
     "test": "bash tests/copy-worktreeinclude.sh && bash tests/create-worktree.sh",
