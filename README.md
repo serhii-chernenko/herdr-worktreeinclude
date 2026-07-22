@@ -4,7 +4,7 @@
 [![npm downloads](https://img.shields.io/npm/dm/herdr-worktreeinclude?logo=npm)](https://www.npmjs.com/package/herdr-worktreeinclude)
 [![CI](https://github.com/serhii-chernenko/herdr-worktreeinclude/actions/workflows/ci.yml/badge.svg)](https://github.com/serhii-chernenko/herdr-worktreeinclude/actions/workflows/ci.yml)
 [![GitHub stars](https://img.shields.io/github/stars/serhii-chernenko/herdr-worktreeinclude?style=flat)](https://github.com/serhii-chernenko/herdr-worktreeinclude/stargazers)
-[![Herdr Marketplace](https://img.shields.io/badge/Herdr-Marketplace-4f46e5)](https://herdr.dev/docs/marketplace/)
+[![Herdr Marketplace](https://img.shields.io/badge/Herdr-Marketplace-4f46e5)](https://herdr.dev/plugins/)
 
 A [Herdr](https://herdr.dev) plugin that keeps Herdr-created Git worktrees inside the project and restores selected ignored files into them.
 
