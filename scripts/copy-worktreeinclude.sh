@@ -33,8 +33,9 @@ is_other_worktree_path() {
 }
 
 matches=$(mktemp "${TMPDIR:-/tmp}/herdr-worktreeinclude.XXXXXX")
+to_copy=$(mktemp "${TMPDIR:-/tmp}/herdr-worktreeinclude-to-copy.XXXXXX")
 pattern_root=$(mktemp -d "${TMPDIR:-/tmp}/herdr-worktreeinclude-patterns.XXXXXX")
-trap 'rm -f "$matches"; rm -rf "$pattern_root"' EXIT
+trap 'rm -f "$matches" "$to_copy"; rm -rf "$pattern_root"' EXIT
 
 # Evaluate selection patterns in an otherwise empty Git repository. Evaluating
 # them inside the source repository would also apply its .gitignore, whose
@@ -47,6 +48,15 @@ cp "$include_file" "$pattern_root/.gitignore"
 # .worktreeinclude with Git's own .gitignore-compatible pattern engine.
 git -C "$source_root" ls-files --others --ignored --exclude-standard -z \
   | git -C "$pattern_root" check-ignore --no-index --stdin -z >"$matches" || true
+
+# Build the destination's tracked-file set once instead of shelling out to Git
+# per candidate below; with hundreds of matched files (e.g. a large build
+# cache selected by .worktreeinclude) a per-file `git ls-files` call each
+# spawning and re-parsing the destination index is the dominant cost of this
+# script. A newline-delimited in-memory membership test assumes no matched
+# path contains a literal newline, true for the file names this feature deals
+# with in practice (env files, build caches, generated config).
+destination_tracked=$'\n'$(git -C "$destination_root" ls-files -z 2>/dev/null | tr '\0' '\n')$'\n'
 
 copied=0
 skipped=0
@@ -61,7 +71,7 @@ while IFS= read -r -d '' relative_path; do
   is_other_worktree_path "$source_path" && continue
 
   # Never overwrite a file Git checked out in the destination.
-  if git -C "$destination_root" ls-files --error-unmatch -- "$relative_path" >/dev/null 2>&1; then
+  if [[ "$destination_tracked" == *$'\n'"$relative_path"$'\n'* ]]; then
     echo "Skipping tracked destination path: $relative_path" >&2
     ((skipped += 1))
     continue
@@ -72,11 +82,16 @@ while IFS= read -r -d '' relative_path; do
     continue
   fi
 
-  mkdir -p "$(dirname "$destination_path")"
-  # -P preserves symlinks, -R copies recursively if Git reports a directory,
-  # and -p retains the source mode and timestamps.
-  cp -pPR "$source_path" "$destination_path"
+  printf '%s\0' "$relative_path" >>"$to_copy"
   ((copied += 1))
 done <"$matches"
+
+# A single tar pipeline preserves symlinks, permissions, and timestamps like
+# `cp -pPR` did, but avoids spawning one cp process per matched file — with
+# hundreds of files (e.g. a build cache selected by .worktreeinclude) that
+# per-file spawn overhead was the dominant cost of this script.
+if [[ -s "$to_copy" ]]; then
+  (cd "$source_root" && tar cf - --null -T "$to_copy") | (cd "$destination_root" && tar xpf -)
+fi
 
 echo "Copied $copied .worktreeinclude file(s); skipped $skipped."

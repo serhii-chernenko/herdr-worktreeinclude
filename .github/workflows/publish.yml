@@ -29,6 +29,9 @@ jobs:
           else
             npm publish
           fi
-      - run: gh release create "$GITHUB_REF_NAME" --generate-notes --title "$GITHUB_REF_NAME"
+      - name: Create GitHub release
+        run: |
+          node scripts/extract-changelog-section.mjs > /tmp/release-notes.md
+          gh release create "$GITHUB_REF_NAME" --notes-file /tmp/release-notes.md --title "$GITHUB_REF_NAME"
         env:
           GH_TOKEN: ${{ github.token }}

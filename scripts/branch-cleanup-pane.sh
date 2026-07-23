@@ -14,5 +14,9 @@ read -r -n 1 choice || true
 printf '\n'
 
 if [[ "$choice" == "d" || "$choice" == "D" ]]; then
-  git -C "$source_root" branch -D -- "$branch" >&2 || true
+  if git -C "$source_root" branch -D -- "$branch" >&2; then
+    printf '  Deleted branch "%s".\n' "$branch" >&2
+  else
+    printf '  Could not delete branch "%s"; delete it manually with: git -C %q branch -D %q\n' "$branch" "$source_root" "$branch" >&2
+  fi
 fi
