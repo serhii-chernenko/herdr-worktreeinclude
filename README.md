@@ -47,11 +47,25 @@ For local development, link it into the current Herdr session:
 herdr plugin link /path/to/herdr-worktreeinclude
 ```
 
-Plugins are registered per Herdr session. For a named session, include its name:
+### Plugins are registered per Herdr session
+
+Both `plugin install` and `plugin link` only register the plugin in the Herdr session you ran the command from. Herdr keeps a separate, durable plugin registry per named session (`herdr session list` shows your sessions); installing in one session does not install it in any other, including sessions created later. If a **New worktree** dialog suggests Herdr's global `~/.herdr/worktrees/...` path instead of a project-local one, the plugin most likely just isn't installed in that particular session yet.
+
+Target a specific named session with `--session`:
 
 ```bash
-herdr --session my-session plugin link /path/to/herdr-worktreeinclude
+herdr --session my-session plugin install serhii-chernenko/herdr-worktreeinclude
 ```
+
+To install it into every session at once:
+
+```bash
+for s in $(herdr session list --json | node -e 'let d="";process.stdin.on("data",c=>d+=c).on("end",()=>console.log(JSON.parse(d).sessions.map(s=>s.name).join("\n")))'); do
+  herdr --session "$s" plugin install serhii-chernenko/herdr-worktreeinclude --yes
+done
+```
+
+A stopped session's server must be running to accept a plugin registration (a plain `herdr --session <name> server` in the background will start it headlessly); read-only commands like `plugin list` work against a stopped session, but `install`/`link`/`unlink` do not.
 
 ## Configure copied files
 
