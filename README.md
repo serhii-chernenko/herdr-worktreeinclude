@@ -22,9 +22,9 @@ The plugin cannot change Herdr's built-in creation/removal dialogs. It uses life
 
 ## Requirements
 
-- Herdr with plugin support (currently the Preview channel)
-- Git
-- Node.js 20 or later
+- [Herdr](https://herdr.dev) with [plugin support](https://herdr.dev/plugins/) (currently the Preview channel)
+- [Git](https://git-scm.com/downloads)
+- [Node.js](https://nodejs.org/en/download) 20 or later
 - macOS or Linux
 
 ## Install
